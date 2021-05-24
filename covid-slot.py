@@ -3,6 +3,8 @@ from pprint import pprint as pp
 import arrow
 import json
 #import send_sms
+from twilio.rest import Client
+
 
 today = arrow.now()
 print(today)
@@ -12,6 +14,7 @@ print(nextDay)
 
 pincode = 461001
 
+#payload = {'pincode': pincode, 'date': '24-05-2021'}
 payload = {'pincode': pincode, 'date': nextDay}
 
 URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin"
@@ -32,16 +35,64 @@ print("here-4")
 print(response.json())
 print("here-5")
 
-mydict = json.loads(response.text)
-print(type(mydict))
+mydictionary = json.loads(response.text)
+print(type(mydictionary))
 
 #print(list(mydict.keys())[list(mydict.values()).index(574478)])
 
+pp(mydictionary)
+print(type(mydictionary))
+print(len(mydictionary))
+
+#print(mydictionary.get('sessions')[0])
+#print(mydictionary.get('sessions')[1])
+print(mydictionary.keys())
+print(mydictionary.values())
+mydictvalues = len(mydictionary.values())
+print(mydictvalues)
+
+#print(mydictionary.get('sessions')[0]['center_id'])
+
+print('before-loop')
 
 smsFlag = False
 
-#if (smsFlag):
-#    send_sms
+for row, column in mydictionary.items():
+    print(row)
+    for center in column:
+        print(center)
+        print(center.get('center_id'))
+        smsFlag = True
+
+
+def send_sms(smsFlag):
+    if (smsFlag):
+        print('inside-send-sms-function')
+        account_sid = 'TWILIO_ACCOUNT_SID'
+        auth_token = 'TWILIO_AUTH_TOKEN'
+        client = Client(account_sid, auth_token)
+
+        message = client.messages \
+            .create(
+            body='Twilio test SMS',
+            from_='+12093439074',
+            to='+14168320235'
+            #    to='+919827507557'
+        )
+
+        print(message.sid)
+
+
+
+if (smsFlag):
+    print('execute-send_sms')
+
+    send_sms(smsFlag)
+
+    print('done-sending-sms')
+
+
 
 
 print("exit-processing")
+
