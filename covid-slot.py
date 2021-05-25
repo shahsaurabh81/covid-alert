@@ -56,25 +56,30 @@ print(mydictvalues)
 print('before-loop')
 
 smsFlag = False
+my_center_id = " "
 
 for row, column in mydictionary.items():
     print(row)
     for center in column:
         print(center)
         print(center.get('center_id'))
+        my_center_id = center.get('center_id')
         smsFlag = True
 
 
-def send_sms(smsFlag):
-    if (smsFlag):
+def send_sms(input_center_id):
+
+    input_center_id_str = str(input_center_id)
+    if (input_center_id_str != " "):
         print('inside-send-sms-function')
         account_sid = 'TWILIO_ACCOUNT_SID'
         auth_token = 'TWILIO_AUTH_TOKEN'
+
         client = Client(account_sid, auth_token)
 
         message = client.messages \
             .create(
-            body='Twilio test SMS',
+            body='Covid-Alert for CenterId: ' + input_center_id_str,
             from_='+12093439074',
             to='+14168320235'
             #    to='+919827507557'
@@ -87,7 +92,7 @@ def send_sms(smsFlag):
 if (smsFlag):
     print('execute-send_sms')
 
-    send_sms(smsFlag)
+    send_sms(my_center_id)
 
     print('done-sending-sms')
 

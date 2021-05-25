@@ -10,8 +10,8 @@ print("inside-send-sms-module")
 #account_sid = os.environ['TWILIO_ACCOUNT_SID']
 #auth_token = os.environ['TWILIO_AUTH_TOKEN']
 
-account_sid = 'AC746bfb08d401b42cf0406283b33ed23e'
-auth_token = '4bc5a5f34ae360f013601d20e2dd7fb3'
+account_sid = 'TWILIO_ACCOUNT_SID'
+auth_token = 'TWILIO_AUTH_TOKEN'
 client = Client(account_sid, auth_token)
 
 message = client.messages \
